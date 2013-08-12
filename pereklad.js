@@ -8,7 +8,7 @@ app.get('/', function(req, res) {
     res.render('index.ejs', {
 		title: "Переклад",
 		heading: "Книга про джаваскрипт",
-		something: "Місце для чогось",
+		something: "Оце вирішив перекласти книгу по патернах джаваскрипт.",
 		layout: false
 	});
 });
