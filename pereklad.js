@@ -23,7 +23,7 @@ app.get('/ch1', function(req, res) {
 });
 
 app.get('/ch2', function(req, res) {
-    res.render('ch1.ejs', {
+    res.render('ch2.ejs', {
         title: "Переклад",
         heading: "Патерни",
         something: "Нарешті доходимо до саміх патернів",
