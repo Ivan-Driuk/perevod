@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title> <%= title %> </title>
+    <link rel='stylesheet' href='/style.css' />
+</head>
+<body>
+	<h1> <%= heading %> </h1>
+	<p> <%= something %> </p>
+    
+    
+Трохи вже надоїло читати про те, як гарні хлопці роблять гарні патерни. </br>
+Коли в мене самого буде хватати розуму розробляти свої патерни, мені вже нафіг не треба буде ця книжка. А поки від патернів мені треба тільки, щоб мене взяли на нормальну роботу, хоч якусь, аби програмістом.
+</br>
+Почнемо.</br>
+Патерн "Конструктор"</br>
+var newObject = {};</br>
+var newObject =  Object.create( null );</br>
+var newObject = new Object();</br></br>
+
+newObject.someKey = "Hello World";</br>
+var key = newObject.someKey;</br>
+newObject["someKey"] = "Hello World";</br>
+var key = newObject["someKey"];</br></br>
+
+Object.defineProperty( newObject, "someKey", {</br>
+    value: "for more control of the property's behavior",</br>
+    writable: true,</br>
+    enumerable: true,</br>
+    configurable: true</br>
+});</br></br>
+
+var defineProp = function ( obj, key, value){</br>
+    config.value = value;</br>
+    Object.defineProperty( obj, key, config );</br>
+};</br></br>
+
+var person = Object.create( null );</br>
+defineProp( person, "car", "Delorean");</br>
+defineProp( person, "dateOfBirth", "1981" );</br>
+defineProp( person, "hasBeard", false );</br></br>
+
+Object.defineProperties( newObject, {</br>
+  "someKey": {</br>
+    value: "Hello World",</br>
+    writable: true</br>
+  },</br>
+  "anotherKey": {</br>
+    value: "Foo bar",</br>
+    writable: false</br>
+  }</br>
+});</br></br>
+Так , кажуть, що те що зверху в нас може бути використане для наслідування. А наслідування в нас це те що далі.</br>
+
+var driver = Object.create( person );</br>
+defineProp(driver, "topSpeed", "100mph");</br>
+console.log( driver.dateOfBirth );</br>
+console.log( driver.topSpeed );</br></br>
+
+Ніби доходимо нарешті до самого патерну "конструктор".</br>
+Зараз, як кажуть в розумній книжці, в нас буде звичайний конструктор, який дядькам не зовсім подобається.</br>
+function Car( model, year, miles ) {</br>
+  this.model = model;</br>
+  this.year = year;</br>
+  this.miles = miles;</br>
+}</br></br>
+
+Car.prototype.toString = function() {</br>
+  return this.model + " has done" + this.miles + " miles";</br>
+};</br></br>
+
+var civic = new Car( "Honda Civic", 2009, 20000) ;</br>
+var mondeo = new Car("Ford Mondeo", 2010, 5000 );</br></br>
+
+console.log( civic.toString() );</br>
+console.log( mondeo.toString() );</br></br>
+
+Ой , вибачте, це й був гарний патерн бо в нього метод "тустрінг" записан в прототип, тому розділяється між всіма новоствореними об"єктами.</br>
+А негарний патерн, це там де "тустрінг" був би записаний разом з "вісом", типа this.toString = ...</br>
+
+
+
+
+
+    
+
+</body>
+</html>

@@ -13,6 +13,25 @@ app.get('/', function(req, res) {
 	});
 });
 
+app.get('/ch1', function(req, res) {
+    res.render('ch1.ejs', {
+        title: "Переклад",
+        heading: "Що таке патерн",
+        something: "Використати ангулар та монго поки не вистачило розуму, на превеликий жаль, тому буду просто відображати сторінки глав",
+        layout: false
+    });
+});
+
+app.get('/ch2', function(req, res) {
+    res.render('ch1.ejs', {
+        title: "Переклад",
+        heading: "Патерни",
+        something: "Нарешті доходимо до саміх патернів",
+        layout: false
+    });
+});
+
+
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
 	console.log("Listening on " + port);
