@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title> <%= title %> </title>
+    <link rel='stylesheet' href='/style.css' />
+</head>
+<body>
+    <h1> <%= heading %> </h1>
+	<p> <%= something %> </p>
+    
+Модуль - розділяй та організуй. Справжній патерн для Юлі Цезаря.</br>
+Літерали:</br>
+var myModule = {</br>
+  myProperty: "someValue",</br>
+  myConfig: {</br>
+    useCaching: true,</br>
+    language: "en"</br>
+  },</br>
+  myMethod: function() {</br>
+    console.log( "Where in the world is Paul Irish today?" );</br>
+  },</br>
+  myMethod2: function () {</br>
+    console.log( "Caching is:" + ( this.myConfig.useCaching ) ? "enabled" :</br>
+    "disabled" );</br>
+  },</br>
+  myMethod3: function( newConfig ) {</br>
+    if ( typeof newConfig === "object" ) {</br>
+      this.myConfig = newConfig;</br>
+      console.log( this.myConfig.language );</br>
+    }</br>
+  }</br>
+};</br></br>
+
+myModule.myMethod();</br>
+myModule.myMethod2();</br>
+myModule.myMethod3({</br>
+  language: "fr",</br>
+  useCaching: false</br>
+});</br></br>
+
+Оце нам нагадали літерали. Все дуже просто. Якщо ні , то значить ви тупіші, навіть, чим я , тому спочатку треба почитати Фленагана.</br>
+Далі побачимо модуль.</br></br>
+
+var testModule = (function () {</br>
+  var counter = 0;</br>
+  return {</br>
+    incrementCounter: function() {</br>
+      return counter++;</br>
+    },</br>
+    resetCounter: function () {</br>
+      console.log( "counter value prior to reset: " + counter );</br>
+      counter = 0;</br>
+    }</br>
+  };</br>
+})();</br></br>
+
+testModule.incrementCounter();</br>
+testModule.resetCounter();</br>
+Отут є два моментика, про функцію, яка зразу виконується і вертає нам функуції з каунтером в клозуре. Поки код маленький, можна придивитись і гарно зрозуміти, що
+таке "клозура".</br></br>
+
+Далі простий шаблонец для модуля:</br>
+var myNamespace = (function () {</br>
+  var myPrivateVar, myPrivateMethod;</br>
+  myPrivateVar = 0;</br>
+  myPrivateMethod = function( foo ) {</br>
+    console.log( foo );</br>
+  };</br>
+  return {</br>
+    myPublicVar: "foo",</br>
+    myPublicFunction: function( bar ) {</br>
+      myPrivateVar++;</br>
+      myPrivateMethod( bar );</br>
+    }</br>
+  };</br>
+})();</br>
+
+ще шаблонец:</br>
+var basketModule = (function () {</br>
+  var basket = [];</br>
+  function doSomethingPrivate() {</br>
+  }</br>
+  function doSomethingElsePrivate() {</br>
+  }</br>
+  return {</br>
+    addItem: function( values ) {</br>
+      basket.push(values);</br>
+    },</br>
+    getItemCount: function () {</br>
+      return basket.length;</br>
+    },</br>
+    doSomething: doSomethingPrivate,</br>
+    getTotal: function () {</br>
+      var q = this.getItemCount(),</br>
+          p = 0;</br>
+      while (q--) {</br>
+        p += basket[q].price;</br>
+      }</br>
+      return p;</br>
+    }</br>
+  };</br>
+})();</br>
+Зараз пояснювати влом, може потім. ААААААА! Знайшов помилку!!!!!! В прикладі зверху в орігінальній книжці. Ненавиджу, коли в книжках робляться помилки, бо це псує все задоволення від копіпасту, а коли
+приклади не працюють, заставляє сумніватися в собі. </br>
+
+basketModule.addItem({</br>
+  item: "bread",</br>
+  price: 0.5</br>
+});</br>
+
+basketModule.addItem({</br>
+  item: "butter",</br>
+  price: 0.3</br>
+});</br>
+
+console.log( basketModule.getItemCount() );</br>
+console.log( basketModule.getTotal() );</br>
+Далі два неробочі приклади, які я передруковувати сюди не буду, бо ненавиджу непрацюючі та неправильні приклади. Для таких є вчителі в інституті.</br>
+Далі "імпорт міксін".</br>
+var myModule = (function (jQ, _ ) {</br>
+  function privateMethod1() {</br>
+    jQ(".container").html("test");</br>
+  }</br>
+  function privateMethod2() {</br>
+    console.log( _.min([10, 5, 100, 2, 1000]) );</br>
+  }</br>
+  return{</br>
+    publicMethod: function(){</br>
+      privateMethod1();</br>
+    }</br>
+  };</br>
+})(jQuery, _ ));</br>
+myModule.publicMethod();</br></br>
+
+ще модуль:</br>
+var myModule = (function () {</br>
+  var module = {},</br>
+    privateVariable = "Hello World";</br>
+  function privateMethod() {</br>
+    // ...</br>
+  }</br>
+  module.publicProperty = "Foobar";</br>
+  module.publicMethod = function () {</br>
+    console.log( privateVariable );</br>
+  };</br>
+  return module;</br>
+}());</br>
+
+Щось не догнав , як правильно, так (function(){})(); чи так (function(){}())?</br>
+Далі щось про реальну імплементацію в різних тулкітах, повну картинку не видно, тому таким новічкам , як я такі приклади поки нафіг не потрібні.</br>
+Далі "ревиалинг модуль патерн"</br>
+
+var myRevealingModule = function () {</br>
+  var privateVar = "Ben Cherry",</br>
+      publicVar  = "Hey there!";</br>
+  function privateFunction() {</br>
+    console.log( "Name:" + privateVar );</br>
+  }</br>
+  function publicSetName( strName ) {</br>
+    privateVar = strName;</br>
+  }</br>
+  function publicGetName() {</br>
+    privateFunction();</br>
+  }</br>
+  return {</br>
+    setName: publicSetName,</br>
+    greeting: publicVar,</br>
+    getName: publicGetName</br>
+  };</br>
+}();</br>
+
+myRevealingModule.setName("Paul Kinlan");</br>
+
+Ще якійсь модуль, який ревиал приватні функції.</br>
+var myRevealingModule = function () {</br>
+  var privateCounter = 0;</br>
+  function privateFunction() {</br>
+    privateCounter++;</br>
+  }</br>
+  function publicFunction() {</br>
+    publicIncrement();</br>
+  }</br>
+  functio publicIncrement() {</br>
+    privateFunction();</br>
+  }</br>
+  function publicGetCount(){</br>
+    return privateCounter;</br>
+  }</br>
+  
+  return {</br>
+    start: publicFunction,</br>
+    increment: publicIncrement,</br>
+    count: publicGetCount</br>
+  };</br>
+}();</br>
+
+myRevealingModule.start();</br>
+Кінець третьої глави.</br>
+    
+
+</body>
+</html>

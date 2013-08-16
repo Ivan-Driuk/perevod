@@ -25,8 +25,17 @@ app.get('/ch1', function(req, res) {
 app.get('/ch2', function(req, res) {
     res.render('ch2.ejs', {
         title: "Переклад",
-        heading: "Патерни",
-        something: "Нарешті доходимо до саміх патернів",
+        heading: "Конструктор",
+        something: "Тут щось про конструктор",
+        layout: false
+    });
+});
+
+app.get('/ch3', function(req, res) {
+    res.render('ch3.ejs', {
+        title: "Переклад",
+        heading: "Модуль",
+        something: "Щось про модуль",
         layout: false
     });
 });
