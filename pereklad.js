@@ -40,8 +40,16 @@ app.get('/ch3', function(req, res) {
     });
 });
 
+app.get('/ch4', function(req, res) {
+    res.render('ch4.ejs', {
+        title: "Переклад",
+        heading: "Синглтон",
+        something: "мабуть найзнаменітіший патерн всіх часів та народів",
+        layout: false
+    });
+});
 
 var port = process.env.PORT || 5000;
-app.listen(port, function() {
+app.listen(process.env.PORT, process.env.IP/*port, function() {
 	console.log("Listening on " + port);
-});
+}*/);

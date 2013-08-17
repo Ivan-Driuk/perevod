@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title> <%= title %> </title>
+    <link rel='stylesheet' href='/style.css' />
+</head>
+<body>
+	<h1> <%= heading %> </h1>
+	<p> <%= something %> </p>
+    
+Отака херня. Хотів з"єднати ангулар з монго, але поки виходить повна хрень. Відчуваю себе повним бовдуром, особливо від того, що ангулар і монго, це,кажуть, - самі прості і зручні технології.
+Сінглтон - об"єкт , який може існувати тільки в єдиному числі, тобто якщо один вже створений, то при спробі створити інший такий самий, вертається посилання на той, що вже створений.
+Кажуть , що він потрібен , як сковище загальнодоступних ресурсів.
+</br></br>
+var mySingleton = (function () {</br>
+  var instance;</br>
+  function init() {</br>
+    function privateMethod(){</br>
+      console.log("I am private");</br>
+    }</br>
+    
+    var privateVariable = "Im also private";</br>
+    var privateRandomNumber = Math.random();</br>
+    return {</br>
+      publicMethod: function () {</br>
+        console.log( "The public can see me!" );</br>
+      },</br>
+      publicProperty: "I am also public",</br>
+      getRandomNumber: function() {</br>
+        return privateRandomNumber;</br>
+      }</br>
+    };</br>
+  };</br>
+  return {</br>
+    getInstance: function () {</br>
+      if ( !instance ) {</br>
+        instance = init();</br>
+      }</br>
+      
+      return instance;</br>
+    }</br>
+  };</br>
+})();</br>
+
+Далі є поганий приклад, де показують , як завжди робиться нова ініціалізація, а треба тільки раз. Наводити його тут не  буду.</br>
+var singleA = mySingleton.getInstance();</br>
+var singleB = mySingleton.getInstance();</br>
+console.log( singleA.getRandomNumber() === singleB.getRandomNumber() );</br>
+Знайшлося зрозуміле пояснення коли треба сінглтон - якщо треба один об"єкт для координування інших в системі.</br>
+mySingleton.getInstance = function() {</br>
+  if ( this._instance == null ) {</br>
+    if ( isFoo() ) {</br>
+      this._instance = new FooSingleton();</br>
+    } else {</br>
+      this._instance = new BasicSingleton();</br>
+    }</br>
+  }</br>
+  return this._instance;</br>
+};</br>
+Приклад, як сінглтон координує систему.</br>
+var SingletonTester = (function () {</br>
+  function Singleton( options ) {</br>
+    options = options || {};</br>
+    this.name = "SingletonTester";</br>
+    this.pointX = options.pointX || 6;</br>
+    this.pointY = options.pointY || 10;</br>
+  }</br>
+  var instance;</br>
+  var _static = {</br>
+    name: "SingletonTester",</br>
+    getInstance: function( options ) {</br>
+      if( instance === undefined ) {</br>
+        instance = new Singleton( options );</br>
+      }</br>
+      return instance;</br>
+    }</br>
+  };</br>
+  return _static;</br>
+})();</br>
+var singletonTest = SingletonTester.getInstance({</br>
+  pointX: 5</br>
+});</br>
+console.log( singletonTest.pointX );</br>
+
+</body>
+</html>
